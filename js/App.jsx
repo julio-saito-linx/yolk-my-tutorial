@@ -6,10 +6,6 @@ import { h, render } from 'yolk'
 // more info: https://github.com/garbles/yolk
 function Counter ({props, children, createEventHandler}) {
 
-  // FIXME: this is not the right way to do this, I feel that
-  let min = 0
-  let max = 10
-
   // createEventHandler
   // ------------------
   // Creates an exotic function that can also be used as an observable. If the
@@ -28,28 +24,33 @@ function Counter ({props, children, createEventHandler}) {
   // merge both event streams together and keep a running count of the result
   const count$ = plusOne$
   	.merge(minusOne$)
-	  .scan((x, y) => {
-	  	let total = x + y
-	  	if (total >= min && total <= max) {
-	  		return total
-	  	} else {
-	  		console.log('total was limited to', x)
-	  		return x
-	  	}
-	  }, 0)
+	  .scan((x, y) => x + y, 0)
 	  .startWith(0)
 
   // prop keys are always cast as observables
   const title$ = props.title.map(title => `Hello ${title}`)
 
+  // min
   const handleInputMinChange = createEventHandler(ev => {
-  	min = parseInt(ev.target.value)
   	return ev.target.value
   })
+	const min$ = handleInputMinChange.map((x) => x)
+  const minResult$ = min$
+	  .scan((x, y) => {
+	  	return y;
+	  }, 0)
+	  .startWith(0)
+
+  // max
   const handleInputMaxChange = createEventHandler(ev => {
-  	max = parseInt(ev.target.value)
   	return ev.target.value
   })
+	const max$ = handleInputMaxChange.map((x) => x)
+  const maxResult$ = max$
+	  .scan((x, y) => {
+	  	return y;
+	  }, 0)
+	  .startWith(10)
 
   return (
     <div>
@@ -64,10 +65,12 @@ function Counter ({props, children, createEventHandler}) {
       {children}
       <div>
       	<span>min:</span>
-      	<input type='text' onChange={handleInputMinChange} value='0' />
+      	<input min='0' max='10' type='range' onChange={handleInputMinChange} value={minResult$} />
+      	<span>{minResult$}</span>
       	<br />
       	<span>max:</span>
-      	<input type='text' onChange={handleInputMaxChange} value='10' />
+      	<input min='0' max='10' type='range' onChange={handleInputMaxChange} value={maxResult$} />
+      	<span>{maxResult$}</span>
       </div>
     </div>
   )
