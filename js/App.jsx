@@ -6,6 +6,10 @@ import { h, render } from 'yolk'
 // more info: https://github.com/garbles/yolk
 function Counter ({props, children, createEventHandler}) {
 
+  // FIXME: this is not the right way to do this, I feel that
+  let min = 0
+  let max = 10
+
   // createEventHandler
   // ------------------
   // Creates an exotic function that can also be used as an observable. If the
@@ -26,7 +30,7 @@ function Counter ({props, children, createEventHandler}) {
   	.merge(minusOne$)
 	  .scan((x, y) => {
 	  	let total = x + y
-	  	if (total >= 0 && total <= 10) {
+	  	if (total >= min && total <= max) {
 	  		return total
 	  	} else {
 	  		console.log('total was limited to', x)
@@ -37,6 +41,15 @@ function Counter ({props, children, createEventHandler}) {
 
   // prop keys are always cast as observables
   const title$ = props.title.map(title => `Hello ${title}`)
+
+  const handleInputMinChange = createEventHandler(ev => {
+  	min = parseInt(ev.target.value)
+  	return ev.target.value
+  })
+  const handleInputMaxChange = createEventHandler(ev => {
+  	max = parseInt(ev.target.value)
+  	return ev.target.value
+  })
 
   return (
     <div>
@@ -49,6 +62,13 @@ function Counter ({props, children, createEventHandler}) {
         <p>Count: {count$}</p>
       </div>
       {children}
+      <div>
+      	<span>min:</span>
+      	<input type='text' onChange={handleInputMinChange} value='0' />
+      	<br />
+      	<span>max:</span>
+      	<input type='text' onChange={handleInputMaxChange} value='10' />
+      </div>
     </div>
   )
 }

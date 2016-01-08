@@ -1,5 +1,5 @@
 # TODO
 
 - [x] limit 0..10
-- [ ] limit input-min..input-max
+- [x] limit input-min..input-max
 - [ ] key binding (+) and (-)
