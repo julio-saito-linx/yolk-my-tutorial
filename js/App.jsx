@@ -29,6 +29,7 @@ function Counter ({props, children, createEventHandler}) {
 	  	if (total >= 0 && total <= 10) {
 	  		return total
 	  	} else {
+	  		console.log('total was limited to', x)
 	  		return x
 	  	}
 	  }, 0)
