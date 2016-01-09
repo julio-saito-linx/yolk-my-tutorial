@@ -31,26 +31,12 @@ function Counter ({props, children, createEventHandler}) {
   const title$ = props.title.map(title => `Hello ${title}`)
 
   // min
-  const handleInputMinChange = createEventHandler(ev => {
-  	return ev.target.value
-  })
-	const min$ = handleInputMinChange.map((x) => x)
-  const minResult$ = min$
-	  .scan((x, y) => {
-	  	return y;
-	  }, 0)
-	  .startWith(0)
+  const handleInputMinChange = createEventHandler(ev => ev.target.value)
+	const min$ = handleInputMinChange.map((x) => x).startWith(0)
 
   // max
-  const handleInputMaxChange = createEventHandler(ev => {
-  	return ev.target.value
-  })
-	const max$ = handleInputMaxChange.map((x) => x)
-  const maxResult$ = max$
-	  .scan((x, y) => {
-	  	return y;
-	  }, 0)
-	  .startWith(10)
+  const handleInputMaxChange = createEventHandler(ev => ev.target.value)
+	const max$ = handleInputMaxChange.map((x) => x).startWith(10)
 
   return (
     <div>
@@ -65,12 +51,12 @@ function Counter ({props, children, createEventHandler}) {
       {children}
       <div>
       	<span>min:</span>
-      	<input min='0' max='10' type='range' onChange={handleInputMinChange} value={minResult$} />
-      	<span>{minResult$}</span>
+      	<input min='0' max='10' type='range' onMouseMove={handleInputMinChange} value={min$} />
+      	<span>{min$}</span>
       	<br />
       	<span>max:</span>
-      	<input min='0' max='10' type='range' onChange={handleInputMaxChange} value={maxResult$} />
-      	<span>{maxResult$}</span>
+      	<input min='0' max='10' type='range' onMouseMove={handleInputMaxChange} value={max$} />
+      	<span>{max$}</span>
       </div>
     </div>
   )
