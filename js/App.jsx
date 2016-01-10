@@ -86,8 +86,12 @@ function Counter ({props, children, createEventHandler}) {
     .merge(handleInputMinMouseMove)
       .distinctUntilChanged()
     .map((x) => {
-      mutable_state.min = x
-      return x
+      if (x <= mutable_state.current) {
+        mutable_state.min = x
+      } else {
+        mutable_state.min = mutable_state.current
+      }
+      return mutable_state.min
     })
     .startWith(0)
 
@@ -98,8 +102,12 @@ function Counter ({props, children, createEventHandler}) {
     .merge(handleInputMaxMouseMove)
       .distinctUntilChanged()
     .map((x) => {
-      mutable_state.max = x
-      return x
+      if (x >= mutable_state.current) {
+        mutable_state.max = x
+      } else {
+        mutable_state.max = mutable_state.current
+      }
+      return mutable_state.max
     })
     .startWith(10)
 
