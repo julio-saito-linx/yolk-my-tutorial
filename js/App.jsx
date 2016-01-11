@@ -4,11 +4,10 @@ import { h, render } from 'yolk'
 // keys: props, children, and createEventHandler.
 // more info: https://github.com/garbles/yolk
 function Counter ({props, children, createEventHandler}) {
-
   let mutable_state = {
     current: 0,
     min: 0,
-    max: 10,
+    max: 5,
   }
 
   // createEventHandler
@@ -20,47 +19,43 @@ function Counter ({props, children, createEventHandler}) {
 
   // map all plus button click events to 1
   const handlePlus = createEventHandler()
-  const plusOne$ = handlePlus.map(() => 1)
+  const plusOne = handlePlus.map(() => 1)
 
   // map all minus button click events to -1
   const handleMinus = createEventHandler()
-  const minusOne$ = handleMinus.map(() => -1)
+  const minusOne = handleMinus.map(() => -1)
 
   // keyDown events
   const keyDown = createEventHandler(ev => ev.which)
-  // LOG: keyDown.map((x) => console.log(x)).subscribe()
+  // keyDown.map((x) => console.log(x)).subscribe()
   // KEY === "-"
-  const keyDownMinus$ = keyDown
-    .filter((x) => x === 109)
+  const keyDownMinus = keyDown
+    .filter((x) => x === 59)
     .map(() => -1)
 
   // KEY === "+"
-  const keyDownPlus$ = keyDown
-    .filter((x) => x === 107)
+  const keyDownPlus = keyDown
+    .filter((x) => x === 57)
     .map(() => +1)
 
-  // const keyDownMinMinus$ = keyDown
-  //   .filter((x) => x === 111)
-  //   .map(() => -1)
+  // 81
+  // 87
+  // 65
+  // 83
 
-  // const keyDownMinPlus$ = keyDown
-  //   .filter((x) => x === 106)
+  // const keyDownMaxMinus = keyDown
+  //   .filter((x) => x === 54)
   //   .map(() => +1)
 
-  // const keyDownMaxMinus$ = keyDown
-  //   .filter((x) => x === 104)
+  // const keyDownMaxPlus = keyDown
+  //   .filter((x) => x === 55)
   //   .map(() => +1)
-
-  // const keyDownMaxPlus$ = keyDown
-  //   .filter((x) => x === 105)
-  //   .map(() => +1)
-
 
   // merge both event streams together and keep a running count of the result
-  const count$ = plusOne$
-    .merge(minusOne$)
-    .merge(keyDownMinus$)
-    .merge(keyDownPlus$)
+  const count = plusOne
+    .merge(minusOne)
+    .merge(keyDownMinus)
+    .merge(keyDownPlus)
     .map((x) => {
       return x
     })
@@ -77,28 +72,31 @@ function Counter ({props, children, createEventHandler}) {
     .startWith(0)
 
   // prop keys are always cast as observables
-  const title$ = props.title.map(title => `Hello ${title}`)
+  const title = props.title.map(title => `Hello {title}`)
 
-  // min range slider
-  const handleInputMinChange = createEventHandler(ev => ev.target.value)
-  const handleInputMinMouseMove = createEventHandler(ev => ev.target.value)
-  const min$ = handleInputMinChange
-    .merge(handleInputMinMouseMove)
-      .distinctUntilChanged()
-    .map((x) => {
-      if (x <= mutable_state.current) {
-        mutable_state.min = x
-      } else {
-        mutable_state.min = mutable_state.current
-      }
+  // min
+  const keyDownMinMinus = keyDown
+    .filter((x) => x === 81)
+    .map(() => {
+      mutable_state.min -= 1
       return mutable_state.min
     })
+
+  const keyDownMinPlus = keyDown
+    .filter((x) => x === 87)
+    .map(() => {
+      mutable_state.min += 1
+      return mutable_state.min
+    })
+
+  const min = keyDownMinMinus
+    .merge(keyDownMinPlus)
     .startWith(0)
 
   // max range slider
   const handleInputMaxChange = createEventHandler(ev => ev.target.value)
   const handleInputMaxMouseMove = createEventHandler(ev => ev.target.value)
-  const max$ = handleInputMaxChange
+  const max = handleInputMaxChange
     .merge(handleInputMaxMouseMove)
       .distinctUntilChanged()
     .map((x) => {
@@ -109,27 +107,25 @@ function Counter ({props, children, createEventHandler}) {
       }
       return mutable_state.max
     })
-    .startWith(10)
+    .startWith(5)
 
   return (
     <div onKeyDown={keyDown}>
-      <h1>{title$}</h1>
+      <h1>{title}</h1>
       <div>
         <button onClick={handleMinus}>-</button>
         <button onClick={handlePlus}>+</button>
       </div>
       <div>
-        <p>Count: {count$}</p>
+        <p>Count: {count}</p>
       </div>
       {children}
       <div>
         <span>min:</span>
-        <input min='0' max='10' type='range' onMouseMove={handleInputMinMouseMove} onChange={handleInputMinChange} value={min$} />
-        <span>{min$}</span>
+        <span>{min}</span>
         <br />
         <span>max:</span>
-        <input min='0' max='10' type='range' onMouseMove={handleInputMaxMouseMove} onChange={handleInputMaxChange} value={max$} />
-        <span>{max$}</span>
+        <span>{max}</span>
       </div>
     </div>
   )
