@@ -5,28 +5,63 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>yolk</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	</head>
 	<body>
-    <div class="container">
+    <div class="container theme-showcase" role="main">
+
+      <div class="row suggestions">
+        
         <div class="header">
-             <h3>Who to follow</h3><a href="#" class="refresh">Refresh</a>
+          <h3>3 from github</h3>
+          <a href="#" class="btn btn-default refresh">Refresh</a>
         </div>
-        <ul class="suggestions">
-            <li class="suggestion1">
-                <img class="picture1" />
-                <a href="#" target="_blank" class="username">this will not be displayed</a>
-            </li>
-            <li class="suggestion2">
-                <img class="picture2" />
-                <a href="#" target="_blank" class="username">neither this</a>
-                <a href="#" class="close close2">x</a>
-            </li>
-            <li class="suggestion3">
-                <img class="picture3" />
-                <a href="#" target="_blank" class="username">nor this</a>
-                <a href="#" class="close close3">x</a>
-            </li>
-        </ul>
+
+        <div class="col-md-3 suggestion suggestion1">
+          <div class="row">
+            <div class="col-md-12">
+              <img />
+            </div>
+            <div class="col-md-12">
+              <span class="user_id"></span>
+            </div>
+            <div class="col-md-12">
+              <a href="#" target="_blank" class="username">nope</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 suggestion suggestion2">
+          <div class="row">
+            <div class="col-md-12">
+              <img />
+            </div>
+            <div class="col-md-12">
+              <span class="user_id"></span>
+            </div>
+            <div class="col-md-12">
+              <a href="#" target="_blank" class="username">nope</a>
+            </div>
+          </div>
+        </div>
+          
+        <div class="col-md-3 suggestion suggestion3">
+          <div class="row">
+            <div class="col-md-12">
+              <img />
+            </div>
+            <div class="col-md-12">
+              <span class="user_id"></span>
+            </div>
+            <div class="col-md-12">
+              <a href="#" target="_blank" class="username">nope</a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
     </div>
     <script src="app.js"></script>
   </body>
