@@ -18,8 +18,7 @@ h3 {
   /* margin: 20px; */
 }
 .suggestions div img {
-  width: 100px;
-  height: 100px;
+  width: 200px;
   cursor: pointer;
   border-radius: 12px;
 }
