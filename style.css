@@ -1,28 +1,48 @@
-button {
-  padding: 26px;
-  font-size: 91px;
-  margin: 26px 0px 0px 18px;
-  font-family: monospace
-}
-
-p {
-  font-family: monospace;
-  font-size: 48px;
-  margin: 32px 10px;
-}
-
-span {
-  font-family: monospace;
-  line-height: 57px;
-  padding: 14px;
-  font-size: 36px;
-}
-
 body {
-  margin: 58px;
+  font-family: sans-serif;
+  padding: 10px;
+}
+h3 {
+  font-weight: bold;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+.refresh {
+  font-size: 80%;
+  margin-left: 10px;
+}
+.header {
+  background: #ECECEC;
+  padding: 5px;
+}
+.suggestions {
+  border: 2px solid #ECECEC;
+  list-style-type: none;
+}
+li {
+  padding: 10px;
+}
+li img {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+li .username, li .close {
+  display: inline-block;
+  position: relative;
+  bottom: 15px;
+  left: 5px;
+  font-size: x-large;
 }
 
-h1 {
+a.close {
+  padding: 0 18px;
+}
+
+a.username {
+  font-size: 31px;
   font-family: monospace;
-  font-size: 38px;
+  padding: 0 30px;
 }
